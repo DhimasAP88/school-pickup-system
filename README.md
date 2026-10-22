@@ -1,32 +1,109 @@
-# 🏫 Sistem Penjemputan Siswa Sekolah (School Pickup System)
-Aplikasi manajemen antrean dan panggilan penjemputan siswa sekolah terpadu secara **Real-time**, terintegrasi dengan **Layar Monitor TV Lobi**, **Pos Keamanan Gerbang (Satpam)**, **Portal Guru Kelas**, dan sistem **Pengeras Suara Otomatis (Text-to-Speech & Bel Sekolah)**.
-Dirancang untuk mengurai kemacetan antrean kendaraan saat jam kepulangan sekolah serta memastikan koordinasi yang aman, tertib, dan transparan antara satpam, guru, dan orang tua murid.
+### 1. 👮‍♂️ Security Gate Portal (3-Segment License Plate Input)
+* **Standard Vehicle Registration Format**: Plate input is split into three dedicated segments:
+  * `[ Region Code (Letters) ]` — `[ Police Number (Digits) ]` — `[ Series Suffix (Letters) ]`
+* **Smart Auto-Focus Transition**: Automatically jumps to the next input field as characters are completed or upon pressing space/enter. Pressing backspace on an empty field navigates back.
+* **Sibling Multi-Child Support**: Multiple students in different classes/grades can be linked to a single license plate.
+* **Dismissal Time Discrepancy Selector**: If an older sibling and a younger sibling have different dismissal times (e.g., Grade 1 dismisses at 12:30 PM, Grade 4 at 02:00 PM), guards can select or uncheck specific children so only the eligible student is called.
+### 2. 📺 Lobby TV Monitor Display (Main Kiosk Screen)
+* **High-Visibility Kiosk Layout**: High-contrast, large-card typography designed for 10-foot viewing on large LCD/LED displays in waiting lounges or school lobbies.
+* **Live Counting Stopwatch Timer**: Tracks elapsed waiting time in real time (`mm:ss`) starting from the exact second the car arrives at the gate.
+* **Dynamic Color-Coded Status**:
+  * 🟢 **Green** (< 5 mins): Newly arrived at the gate.
+  * 🟡 **Amber** (5 – 10 mins): Student currently making their way to the pickup area.
+  * 🔴 **Pulsing Red** (> 10 mins): Overdue wait time — alerts duty teachers to check on the student.
+* **Digital Clock & Synchronized Calendar**: Accurate local time display.
+### 3. 🔔 Automated School Bell Chime & Voice Announcer (TTS)
+* Plays a dual-tone airport/school chime via the **Web Audio API** before voice playback starts.
+* Fully automated Indonesian/English voice announcements using the browser's native **Web Speech API** (zero third-party API costs or subscription fees):
+  > *"Attention. The parents of Muhammad Farhan from Class 4B and Aisyah Zahira from Class 1A have arrived at the pickup gate."*
+### 4. 👩‍🏫 Homeroom Teacher Portal (Student Release)
+* **Class Filter**: Teachers can filter the live queue by their assigned classroom (e.g., Class 1A only).
+* **1-Click Dismissal (`✅ Picked Up / Complete`)**: As soon as the teacher escorts the child to their parents:
+  * The student card is automatically removed from the Lobby TV screen in real time.
+  * The system records the total wait duration and logs the dismissal into the daily archive.
+### 5. 📊 Pickup History & Analytics (Daily Logs)
+* Comprehensive audit trail tracking Arrival Time, Release Time, Total Wait Duration, License Plate, and Teacher in charge.
+* Summary KPI cards: Total Students Picked Up, Average Wait Time, Shortest Wait, and Longest Queue Duration.
+* **Export to CSV / Excel**: One-click download for administrative review and transportation logistics reporting.
+* ### 6. 📂 Student Database & Spreadsheet Importer
+* Manual CRUD management for students, parent contacts, and vehicle associations.
+* **Bulk Spreadsheet Import**: Copy and paste tabular data directly from Google Sheets or Excel (CSV/TSV format) to register hundreds of students instantly.
+* Downloadable CSV template included.
+### 7. ⚡ Supabase Realtime Synchronization (WebSocket)
+* Instant multi-device sync (< 100 ms) via Supabase Realtime replication. Changes submitted on the guard's tablet immediately update the lobby TV and classroom phones without page reloads.
 ---
-## 🌟 Fitur Utama
-### 1. 👮‍♂️ Pos Satpam (Input 3 Bagian Plat Nomor)
-* **Format Plat Nomor Indonesia**: Input terbagi menjadi 3 kotak khusus:
-  * `[ Wilayah (Huruf) ]` — `[ Nomor Polisi (Angka) ]` — `[ Seri Akhir (Huruf) ]`
-* **Navigasi Cerdas (Auto-Jump)**: Kursor otomatis berpindah ke kotak berikutnya saat jumlah karakter terpenuhi atau saat menekan spasi/enter.
-* **Dukungan Saudara Kandung (Kakak-Adik)**: 1 nomor polisi kendaraan dapat terhubung ke lebih dari 1 siswa dengan kelas yang berbeda.
-* **Seleksi Siswa Beda Jam Kepulangan**: Jika adik kelas 1 pulang lebih awal dari kakak kelas 4, satpam dapat memilih/mencentang hanya anak yang akan dijemput saat ini.
-### 2. 📺 Layar Monitor TV Lobi (Display Utama)
-* **Tampilan Resolusi Tinggi & Kiosk Friendly**: Dirancang kontras dan mudah dibaca dari jarak jauh pada layar TV/Monitor besar di ruang tunggu atau lobi sekolah.
-* **Stopwatch Realtime (Counting Timer)**: Menghitung secara otomatis berapa menit dan detik orang tua telah menunggu sejak nomor plat diinput di gerbang.
-* **Indikator Warna Otomatis**:
-  * 🟢 **Hijau** ($< 5$ menit): Baru tiba di gerbang.
-  * 🟡 **Kuning** ($5 - 10$ menit): Sedang menunggu siswa keluar kelas.
-  * 🔴 **Merah Berkedip** ($> 10$ menit): Perhatian khusus bagi guru piket untuk memeriksa kendala siswa.
-* **Jam & Kalender Digital**: Sinkronisasi waktu WIB otomatis.
-### 3. 🔔 Audio Panggilan Otomatis (Text-to-Speech + Bel Sekolah)
-* Mengeluarkan nada bel bandara/sekolah (*dual-tone pleasant chime*) sebelum panggilan dimulai menggunakan Web Audio API.
-* Pengumuman suara otomatis dalam Bahasa Indonesia menggunakan Web Speech API bawaan browser (tanpa biaya API pihak ketiga):
-  > *"Perhatian. Orang tua dari ananda Muhammad Farhan kelas 4B dan ananda Aisyah Zahira kelas 1A telah tiba di gerbang penjemputan."*
-### 4. 👩‍🏫 Portal Guru Kelas (Pelepasan Siswa)
-* **Filter Kelas yang Diampu**: Guru dapat menyaring antrean berdasarkan kelas (misal: hanya menampilkan murid kelas 1A).
-* **Konfirmasi 1-Klik (`✅ Sudah Dijemput`)**: Begitu murid diantar ke orang tua:
-  * Nama siswa otomatis terhapus dari Layar TV lobi.
-  * Sistem menghitung total durasi tunggu dan memindahkannya ke tabel log harian sekolah.
-### 5. 📊 Riwayat & Log Penjemputan (Analitik Harian)
-* Rekap waktu kedatangan, waktu dijemput, total durasi tunggu, dan identitas guru/petugas yang melepas siswa.
-* Ringkasan KPI: Total siswa dijemput, rata-rata waktu tunggu harian, waktu tunggu tercepat, dan antrean terlama.
-* **Fitur Ekspor CSV / Excel**: Dapat diunduh kapan saja untuk evaluasi dan arsip laporan sekolah.
+## 🛠️ Tech Stack
+* **Framework**: [Next.js 14](https://nextjs.org/) (App Router, React 18)
+* **Language**: [TypeScript](https://www.typescriptlang.org/)
+* **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+* **Database & Realtime**: [Supabase](https://supabase.com/) (PostgreSQL & Realtime WebSocket)
+* **Audio Engine**: Web Audio API (Chime Synthesis) & Web Speech API (Text-to-Speech)
+* **Icons**: [Lucide React](https://lucide.dev/)
+---
+## 🚀 Local Installation & Setup
+### 1. Clone the Repository
+```bash
+git clone https://gitlab.com/USERNAME/school-pickup-system.git
+cd school-pickup-system
+```
+### 2. Install Dependencies
+```bash
+npm install
+```
+### 3. Configure Environment Variables
+Create a `.env.local` file in the root project directory:
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://YOUR_PROJECT_ID.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
+```
+### 4. Set Up the Supabase Database
+1. Open your project dashboard at [Supabase](https://supabase.com/).
+2. Navigate to the **SQL Editor** tab $\rightarrow$ click **`+ New query`**.
+3. Copy the entire contents of [`supabase-schema.sql`](./supabase-schema.sql) from this repository, paste it into the editor, and click **Run**.
+### 5. Run the Application
+```bash
+# Development Mode
+npm run dev
+# Or Production Build
+npm run build
+npm start
+```
+Open your browser and navigate to `http://localhost:3000`.
+---
+## 🌐 Deployment Guide (Vercel)
+This application can be deployed for free on **Vercel**:
+1. Push your code to your GitLab or GitHub repository.
+2. Log in to [vercel.com](https://vercel.com) using your GitLab account.
+3. Click **Add New Project** $\rightarrow$ select `school-pickup-system`.
+4. In the **Environment Variables** section, add:
+   * `NEXT_PUBLIC_SUPABASE_URL`
+   * `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+5. Click **Deploy**. Your application will be live in ~1 minute!
+> **Important**: Always access the deployed application via **HTTPS** (automatically provided by Vercel) to ensure browser security policies allow automated Web Speech API (Text-to-Speech) audio playback on tablets and mobile devices.
+---
+## 📁 Project Structure
+```text
+├── src/
+│   ├── app/
+│   │   ├── globals.css         # Global Tailwind styles & scrollbar configs
+│   │   ├── layout.tsx          # Root HTML layout and metadata
+│   │   └── page.tsx            # Main application shell & realtime state orchestrator
+│   ├── components/
+│   │   ├── TvDisplayView.tsx      # Lobby TV Screen (Live Stopwatch & Student Cards)
+│   │   ├── SecurityGateView.tsx   # Security Gate (3-Segment Plate Input & Sibling Selector)
+│   │   ├── TeacherPortalView.tsx  # Teacher Portal (Classroom Filter & Dismissal Action)
+│   │   ├── DailyLogsView.tsx      # Daily pickup records, metrics & CSV export
+│   │   └── DataManagementView.tsx # Student database manager & Excel/CSV bulk importer
+│   ├── lib/
+│   │   ├── audio-announcer.ts  # Web Audio chime generator + Web Speech TTS engine
+│   │   ├── mock-data.ts        # Seed data and offline local fallback
+│   │   └── supabase.ts         # Supabase client initialization
+│   └── types/
+│       └── index.ts            # TypeScript interfaces and shared types
+├── supabase-schema.sql         # Idempotent PostgreSQL schema & Realtime publication script
+├── tailwind.config.js
+└── package.json
+```
+---
+## 📄 License
+This project is licensed under the [MIT License](LICENSE). Feel free to use, customize, and deploy it for educational institutions and schools.
