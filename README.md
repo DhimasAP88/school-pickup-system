@@ -48,7 +48,7 @@ Engineered to resolve gate congestion during school dismissal hours while ensuri
 ## 🚀 Local Installation & Setup
 ### 1. Clone the Repository
 ```bash
-git clone https://gitlab.com/USERNAME/school-pickup-system.git
+git clone https://github.com/DhimasAP88/school-pickup-system.git
 cd school-pickup-system
 ```
 ### 2. Install Dependencies
