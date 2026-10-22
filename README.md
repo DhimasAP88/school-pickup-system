@@ -1,3 +1,8 @@
+# 🏫 Smart School Pickup Management System
+A unified, **real-time** school dismissal and student pickup queue system integrated with a **Lobby TV Monitor Display**, **Security Gate Guard Portal**, **Homeroom Teacher Dismissal Portal**, and an **Automated School Bell & Text-to-Speech (TTS) Voice Announcer**.
+Engineered to resolve gate congestion during school dismissal hours while ensuring a safe, organized, and transparent coordination flow between security guards, teachers, and waiting parents.
+---
+## 🌟 Key Features
 ### 1. 👮‍♂️ Security Gate Portal (3-Segment License Plate Input)
 * **Standard Vehicle Registration Format**: Plate input is split into three dedicated segments:
   * `[ Region Code (Letters) ]` — `[ Police Number (Digits) ]` — `[ Series Suffix (Letters) ]`
